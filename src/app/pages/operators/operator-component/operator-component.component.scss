@@ -1,0 +1,23 @@
+.columns {
+  display: flex;
+  .column {
+    flex: 1 0 50%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+
+  &.header {
+    .column {
+      height: auto;
+      justify-content: center;
+    }
+  }
+}
+
+.mat-card {
+  margin: 4px;
+}
