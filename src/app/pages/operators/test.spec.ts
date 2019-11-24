@@ -2,14 +2,15 @@ import {fakeAsync, tick} from '@angular/core/testing';
 import {asyncScheduler, from, interval, onErrorResumeNext} from 'rxjs';
 import {marbles} from 'rxjs-marbles/jasmine';
 import {map, take} from 'rxjs/operators';
+import {customMap1} from './operators'
 import createSpy = jasmine.createSpy;
 
-fdescribe(`testing existing operators`, () => {
+describe(`testing existing operators`, () => {
     describe(`maps values to power 2`, () => {
         it('should test with done callback', (done: DoneFn) => {
             const source$ = from([1, 2, 3, 4, 5], asyncScheduler);
             const result$ = source$.pipe(
-                map(v => v ** 2),
+                customMap1(v => v ** 2),
             );
 
             const expectedValues = [1, 4, 9, 16, 25];
@@ -27,15 +28,13 @@ fdescribe(`testing existing operators`, () => {
                 },
                 error: done.fail
             });
-
-            done();
         });
 
         it('should work with fakeAsync', fakeAsync(() => {
             const source$ = interval(1000)
                 .pipe(take(5));
             const result$ = source$.pipe(
-                map(v => v ** 2),
+                customMap1(v => v ** 2),
             );
             const expectedValues = [0, 1, 4, 9, 16];
             const spy = createSpy('mapSpy');
@@ -56,7 +55,7 @@ fdescribe(`testing existing operators`, () => {
             const e = '-x--y--z--w--q|';
 
             const source$ = m.cold(s);
-            const result$ = source$.pipe(map(x => x ** 2));
+            const result$ = source$.pipe(customMap1(x => x ** 2));
             const expected$ = m.cold(e, {
                 x: 1,
                 y: 4,
@@ -76,7 +75,7 @@ fdescribe(`testing existing operators`, () => {
             const source1$ = m.cold<number>(s1);
             const source2$ = m.cold<number>(s2);
             const source$ = onErrorResumeNext<number, number, number>(source1$, source2$)
-            const result$ = source$.pipe(map(x => x ** 2));
+            const result$ = source$.pipe(customMap1(x => x ** 2));
             const expected$ = m.cold(e, {
                 x: 1,
                 y: 4,

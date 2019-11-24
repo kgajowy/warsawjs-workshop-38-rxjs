@@ -5,7 +5,7 @@ export const customMap1 = <T, R>(project: (value: T) => R) => (source: Observabl
     return source.subscribe({
       next(x) {
         observer.next(
-          project(x)
+            project(x),
         );
       },
       error(err) {
